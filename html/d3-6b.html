@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>D3 Web Maps</title>
+
+	<meta name="viewport" content="width=device-width">
+
+</head>
+
+<body>
+	<style>
+		body {
+			font-family: "Proxima Nova Rg", sans-serif;
+			width: 100%;
+			height: 100%;
+			background: url("../img/sky_background.png") no-repeat center center fixed;
+			margin: 0px;
+		}
+		h1, h2 {
+			text-align: center;
+			font-family: "Proxima Nova Rg", sans-serif;
+			color: #fff;
+			text-shadow: #000 4px 4px 4px;
+			margin: 0px;
+		}
+		h1 {
+			margin-top: 20px;
+			font-size: 5em;
+		}
+		h2 {
+			font-size: 3em;
+			margin: 50px 20px 20px 20px;
+			text-align: left;
+			display: inline-block;
+		}
+		h3 {
+			margin: 0px;
+			font-size: 1.5em;
+			font-family: "Proxima Nova Rg", sans-serif;
+			color: #fff;
+			font-style: italic;
+			text-shadow: #000 2px 2px 2px;
+			display: inline;
+		}
+		p, ul {
+			margin: 0px 0px 5px 20px;
+			font-size: 2.2em;
+			font-family: "Proxima Nova Rg", sans-serif;
+			font-weight: bold;
+			color: #fff;
+			text-shadow: #000 3px 3px 3px;
+		}
+		a {
+			color: #fff;
+			text-decoration: none;
+		}
+		img {
+
+		}
+		#images {
+			position: absolute;
+			left: 450px;
+			text-align: center;
+		}
+		img {
+			margin: 100px 20px 20px 0px;
+			max-height: 500px;
+		}
+		#leftside {
+			float: left;
+			width: 400px;
+		}
+		#rightside {
+			position: absolute;
+			left: 700px;
+			top: 390px;
+		}
+
+	</style>
+	
+	<div id="leftside">
+		<h2>Data for Maps:</h2>
+		<h2>GeoJSON</h2>
+		<p><a href="http://www.projectlinework.org">Elmer Casual Admin1 Polygons: 991 Kb</a></p>
+		<h2>TopoJSON</h2>
+		<p><a href="http://www.projectlinework.org">Elmer Casual Admin1 Polygons: 224 Kb</a></p>
+		<p>(23% of GeoJSON)</p>
+	</div>
+
+	<div id="images">
+		<a href="d3-6c.html">
+			<img id="geo_big" src="../img/geo_big.png"/>
+			<img id="topo_big" src="../img/topo_big.png"/>
+		</a>
+	</div>
+
+</body>

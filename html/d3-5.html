@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>D3 Web Maps</title>
+
+	<meta name="viewport" content="width=device-width">
+
+	<link rel="stylesheet" href="../css/jquery.nouislider.css">
+	<link rel="stylesheet" href="../css/jquery.tooltip.css">
+
+</head>
+
+<body>
+	<style>
+		body {
+			font-family: "Proxima Nova Rg", sans-serif;
+			width: 100%;
+			height: 100%;
+			background: url("../img/sky_background.png") no-repeat center center fixed;
+			margin: 0px;
+		}
+		h1, h2 {
+			text-align: center;
+			font-family: "Proxima Nova Rg", sans-serif;
+			color: #fff;
+			text-shadow: #000 4px 4px 4px;
+			margin: 0px;
+		}
+		h1 {
+			margin-top: 20px;
+			font-size: 5em;
+		}
+		h2 {
+			font-size: 2.5em;
+			margin: 50px 20px 20px 20px;
+			text-align: left;
+			display: inline-block;
+		}
+		h3 {
+			margin: 0px;
+			font-size: 1.5em;
+			font-family: "Proxima Nova Rg", sans-serif;
+			color: #fff;
+			text-shadow: #000 2px 2px 2px;
+			display: inline;
+		}
+		h4 {
+			margin: 0px;
+			font-size: 1em;
+			font-family: "Proxima Nova Rg", sans-serif;
+			color: #fff;
+			font-style: italic;
+			text-shadow: #000 1px 1px 1px;
+			display: inline;
+		}
+		ul, ol {
+			margin: 0px 0px 5px 20px;
+			font-size: 2.2em;
+			font-family: "Proxima Nova Rg", sans-serif;
+			font-weight: bold;
+			color: #fff;
+			text-shadow: #000 3px 3px 3px;
+		}
+		p, span {
+			font-size: 1.7em;
+			font-family: "Proxima Nova Rg", sans-serif;
+			font-style: italic;
+			margin-left: 20px;
+			margin-bottom: 10px;
+			color: #fff;
+			text-shadow: #000 2px 2px 2px;
+		}
+		a {
+			color: #fff;
+			text-decoration: none;
+		}
+		img {
+			position: absolute;
+			right: 0;
+			top: 0;
+			margin: 125px 20px;
+			max-width: 600px;
+		}
+		span {
+			float: right;
+		}
+		.map {
+			border: medium solid #999;
+			background-color: #e3f3fb;
+			float: right;
+			margin: 50px 20px 0px 0px;
+		}
+
+		.countries {
+		  fill: #000;
+		  stroke: #fff;
+		  stroke-width: 1px;
+		}
+
+		.counties {
+		  fill: none;
+		  stroke: #000;
+		  stroke-width: 0.5px;
+		  stroke-linecap: round;
+		}
+
+		.infolabel {
+			position: absolute;
+			color: #fff;
+			background-color: #000;
+			border: solid thin #fff;
+			padding: 5px;
+		}
+
+		.infolabel h1 {
+			margin: 0px;
+			padding: 0px;
+			display: inline-block;
+			line-height: 1em;
+			font-size: 2em;
+		}
+
+		.infolabel b {
+			float: left;
+		}
+
+		.labelname {
+			display: inline-block;
+			float: right;
+			margin: -25px 0px -10px 40px;
+			font-size: 1em;
+			font-weight: bold;
+		}
+
+		#legend {
+			height: 445px;
+			padding: 25px 10px 30px 10px;
+			margin-left: 840px;
+			border: medium solid #999;
+			background-color: #eee;
+			position: absolute;
+		}
+
+		#legtitle {
+			text-align: center;
+			margin-top: 25px;
+		}
+
+		#legtitle select {
+			margin: 30px;
+		}
+
+		.colorbox {
+			width: 50px;
+			height: 50px;
+		}
+
+		#legendColors {
+			float: left;
+			margin: 25px 10px 0 35px;
+		}
+
+		#legendScale {
+			margin-top: 10px;
+			float: left;
+		}
+
+		.legendNum {
+			padding: 3px 0px 28px 3px;
+		}
+
+		#attributeName {
+			text-align: center;
+			margin-top: 75px;
+		}
+		.slider {
+			margin: 10px 0px;
+			width: 200px
+		}
+		.container {
+			width: 500px;
+			margin: 0px 20px;
+			float: left;
+		}
+
+	</style>
+
+	<!--libraries-->
+	<script src="../lib/jquery.js"></script>
+	<script src="../lib/d3.v3.js"></script>
+    <script src="../lib/topojson.v1.min.js"></script>
+    <script src="../lib/queue.js"></script>
+    <script src="../lib/jquery.tooltip.js"></script>
+    <script src="../lib/jquery.nouislider.js"></script>
+	
+	<div class="container">
+		<h2>1) Generator Functions</h2>
+		<ul>
+			<li><a href="https://github.com/mbostock/d3/wiki/Scales" target="_blank">Scales</a></li>
+			<li><a href="https://github.com/mbostock/d3/wiki/SVG-Axes" target="_blank">Axes</a></li>
+			<li><a href="https://github.com/mbostock/d3/wiki/Geo-Paths" target="_blank">Geo Paths</a></li>
+			<li><a href="https://github.com/mbostock/d3/wiki/Geo-Projections#standard-projections" target="_blank">Geo Projections</a></li>
+		</ul>
+
+		<p>Projection Parameters:</p>
+		<table border=0>
+			<tr>
+				<td><h3>Longitude</h3></td>
+				<td><h3>Latitude</h3></td>
+			</tr><tr>
+				<td><h4>Center</h4>
+					<div id="sliderCenterLong" class="slider"></div>
+				</td>
+				<td><h4>Center</h4>
+					<div id="sliderCenterLat" class="slider"></div>
+				</td>
+			</tr><tr>
+				<td><h4>Rotate</h4>
+					<div id="sliderRotateLong" class="slider"></div>
+				</td>
+				<td><h4>Rotate</h4>
+					<div id="sliderRotateLat" class="slider"></div>
+				</td>
+			</tr>
+		</table><table class="sliders" border=0 style="margin-top: 10px;">
+			<tr>
+				<td><h4>Parallel 1</h4>
+					<div id="sliderParallel1" class="slider"></div>
+				</td>
+				<td><h4>Parallel 2</h4>
+					<div id="sliderParallel2" class="slider"></div>
+				</td>
+			</tr><tr>
+				<td><h4>Scale</h4>
+					<div id="sliderScale" class="slider"></div>
+				</td>
+			</tr>
+		</table>
+	</div>
+
+	<!--link to main javascript file-->
+	<script src="../js/projection.js"></script>
+</body>
